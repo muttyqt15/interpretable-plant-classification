@@ -1,72 +1,71 @@
-# Honest AI for Food Security: Prototypical Network Approach
+# Honest AI: An Inherently Interpretable Vision System
 
-**Author:** Muttaqin Muzakkir – Universitas Indonesia
+A from-scratch implementation of a **Prototypical Network** that moves beyond "black box" models to deliver high-performance, truly explainable image classification.
 
----
+[*Kaggle Notebook Implementation*](https://www.kaggle.com/code/hayaye/inherently-interpretable-classification)
 
-## Overview
-
-This project addresses **interpretable plant disease classification** in the context of food security. Unlike standard black-box AI models, our Prototypical Network produces **transparent predictions** by learning a “prototype” embedding for each class, enabling domain experts to understand why a prediction was made.
 
 ---
 
-## Key Results
+## The Core Innovation: Visual, Auditable Reasoning
 
-* **Interpretability:** Visual prototypes per class reveal the ideal representative learned by the model, allowing inspection of class-defining features.
-* **Performance:** Achieves competitive macro F1-score and accuracy on the PlantVillage dataset while remaining fully interpretable.
-* **Robustness:** Aggressive augmentation ensures the model focuses on invariant, disease-relevant features rather than spurious correlations.
-* **Efficiency:** Lightweight CNN encoder with a 64-dimensional embedding space balances performance and computational cost.
+This system doesn't just predict; it **explains**. By learning a single, representative **"prototype"** for each plant disease, its reasoning is transparent and auditable. A prediction is made by finding the closest prototype, allowing an expert to instantly verify the *why* behind any decision.
 
----
-
-## Caveats & Considerations
-
-* **Data Limitations:** The model relies on labeled plant disease images; rare or unseen disease variants may not be well-represented.
-* **Prototype Sensitivity:** Learned prototypes reflect training data distributions; out-of-distribution samples may reduce interpretability.
-* **Scaling:** While effective for moderate-sized datasets, large-scale deployment may require optimized training and data handling pipelines.
+This is what the model learns — the **archetypal example** for each disease.
 
 ---
 
-## Why This Approach is Superior
+## The Problem & Solution
 
-1. **Intrinsic Interpretability:** Directly maps each class to a visual prototype.
-2. **Metric Learning:** Embeddings cluster similar diseases, enabling transparent comparison and confidence estimation.
-3. **Targeted Augmentation:** Reduces reliance on background artifacts, emphasizing disease-specific patterns.
-4. **Reproducibility:** Fully deterministic pipeline from preprocessing to evaluation.
+**The Problem:** Standard AI models are "black boxes." In high-stakes domains like agriculture, a farmer will not trust a diagnosis they cannot understand. This "trust gap" is the biggest barrier to real-world adoption.
+
+**My Solution:** I built a Prototypical Network from first principles. Instead of just classifying, the model learns a **semantically meaningful embedding space** where distances represent visual similarity. This makes the model's reasoning process itself the explanation.
+
+---
+
+## Key Results & Features
+
+- **High Performance:** Achieved a **90% weighted F1-score** on the PlantVillage dataset, proving interpretability does not require sacrificing accuracy.  
+- **Built from Scratch:** Engineered a computationally efficient CNN (~500k parameters) and a **custom prototypical loss function** in PyTorch.
+- **Robust & Trustworthy:** The system's reasoning aligns with plant pathology, mitigating risks of spurious correlations (e.g., background artifacts).
+
+---
+
+## Architecture Overview
+
+- **CNN Encoder:** A lightweight CNN processes an input image and maps it into a **64-dimensional embedding vector**.  
+- **Prototype Calculation:** The mean embedding vector ("prototype") is calculated for all images in a class.  
+- **Metric Learning (Custom Loss):** Minimizes distance to the correct prototype while maximizing distance to others.  
+- **Inference:** Classifies a new image by finding the **closest class prototype** in Euclidean space.
 
 ---
 
 ## Reproduction Steps
 
-1. **Clone the repository**
-
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/muttyqt15/interpretable-plant-classification.git
 cd interpretable-plant-classification
-```
+````
 
-2. **Set up environment**
+2. **Set up environment:**
 
 ```bash
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-3. **Configure dataset path** in `CONFIG['data_path']` to point to PlantVillage images.
+3. **Configure dataset path in `config.py`.**
 
-4. **Run the pipeline**
+4. **Run the pipeline:**
 
-```python
-from main import main
-main()
+```bash
+python main.py
 ```
 
-* `RUN_TRAINING = True` → train model from scratch
-* `RUN_TRAINING = False` → load saved model and generate final evaluation and prototype visualizations
+---
 
-5. **Inspect outputs**
+## Tech Stack
 
-* Training metrics: loss, accuracy, F1-score per epoch
-* Prototype images per class
-* Classification report and evaluation on test set
+* **Core:** Python, PyTorch
+* **Data Handling:** Pandas, NumPy, Scikit-learn
+* **Visualization:** Matplotlib, Seaborn
