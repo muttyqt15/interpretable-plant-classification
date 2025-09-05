@@ -11,7 +11,7 @@ A from-scratch implementation of a **Prototypical Network** that moves beyond "b
 
 This system doesn't just predict; it **explains**. By learning a single, representative **"prototype"** for each plant disease, its reasoning is transparent and auditable. A prediction is made by finding the closest prototype, allowing an expert to instantly verify the *why* behind any decision.
 
-This is what the model learns — the **archetypal example** for each disease.
+This is what the model learns, the **archetypal example** for each disease.
 
 ---
 
