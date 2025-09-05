@@ -54,13 +54,9 @@ cd interpretable-plant-classification
 pip install -r requirements.txt
 ```
 
-3. **Configure dataset path in `config.py`.**
+3. **Configure dataset path in `DATASET_PATH` in notebook.**
 
-4. **Run the pipeline:**
-
-```bash
-python main.py
-```
+4. **Run the pipeline by starting the notebook.**
 
 ---
 
